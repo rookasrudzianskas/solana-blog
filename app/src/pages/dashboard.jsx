@@ -20,7 +20,7 @@ export const Dashboard = () => {
     name: "Random Robot",
     avatar: "https://avatarfiles.alphacoders.com/283/thumb-283778.jpg",
   }
-  const connected = true
+  const connected = false;
   const posts = []
 
   const createPost = () => {
@@ -51,7 +51,7 @@ export const Dashboard = () => {
           <h2 className="text-2xl font-bold">
             <div className="bg-clip-text bg-gradient-to-br from-indigo-300 colorpink"
             >
-              Onaki
+              Rookas Blog
             </div>
           </h2>
           {connected ? (
