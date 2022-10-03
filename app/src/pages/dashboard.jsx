@@ -9,23 +9,23 @@ import { useHistory } from 'react-router-dom'
 
 
 export const Dashboard = () => {
-  const history = useHistory()
-  const [connecting, setConnecting] = useState(false)
-  const { connected, select } = useWallet()
-  const { user, posts, initialized, initUser, createPost, showModal, setShowModal, } = useBlog()
-  const [postTitle, setPostTitle] = useState("")
-  const [postContent, setPostContent] = useState("")
+  const history = useHistory();
+  const [connecting, setConnecting] = useState(false);
+  const { connected, select } = useWallet();
+  const { user, posts, initialized, initUser, createPost, showModal, setShowModal, } = useBlog();
+  const [postTitle, setPostTitle] = useState("");
+  const [postContent, setPostContent] = useState("");
 
   const onConnect = () => {
-    setConnecting(true)
-    select(PhantomWalletName)
+    setConnecting(true);
+    select(PhantomWalletName);
   }
 
   useEffect(() => {
     if (user) {
-      setConnecting(false)
+      setConnecting(false);
     }
-  }, [user])
+  }, [user]);
 
   return (
       <div className="dashboard background-color overflow-auto h-screen">
