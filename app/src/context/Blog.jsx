@@ -62,6 +62,29 @@ export const BlogProvider = ({ children }) => {
         start();
     }, [program, publicKey, transactionPending]);
 
+    const initUser = async () => {
+        if(program && publicKey) {
+            try {
+                setTransactionPending(true);
+                const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
+                const name = getRandomName();
+                const avatar = getAvatarUrl(name);
+
+                await program.methods.initUser(name, avatar).accounts({
+                    userAccount: userPda,
+                    authority: publicKey,
+                    systemProgram: SystemProgram.programId,
+                }).rpc();
+                setInitialized(true);
+                setTransactionPending(false);
+            } catch (err) {
+                console.log(err);
+            } finally {
+                setTransactionPending(false);
+            }
+        }
+    }
+
 
   return (
     <BlogContext.Provider
