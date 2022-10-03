@@ -1,4 +1,4 @@
-import {createContext, useContext, useState, useMemo} from "react";
+import {createContext, useContext, useState, useMemo, useEffect} from "react";
 import {useAnchorWallet, useConnection, useWallet} from "@solana/wallet-adapter-react";
 import { getAvatarUrl } from "src/functions/getAvatarUrl";
 import { getRandomName } from "src/functions/getRandomName";
@@ -40,7 +40,27 @@ export const BlogProvider = ({ children }) => {
         }
     }, [connection, anchorWallet]);
 
-
+    useEffect(() => {
+        const start = async () => {
+                if (program && publicKey) {
+                    try {
+                        const [userPda] = findProgramAddressSync([utf8.encode('user'), publicKey.toBuffer()], program.programId);
+                        const user = await program.account.userAccount.fetch(userPda);
+                        if(user) {
+                            setInitialized(true);
+                            setUser(user);
+                            setLastPostId(user.lastPostId);
+                            const postAccounts = await program.account.postAccount.all(publicKey.toString());
+                            setPosts(postAccounts);
+                        }
+                    } catch (error) {
+                        console.log(error);
+                        setInitialized(false);
+                    }
+                }
+            }
+        start();
+    }, [program, publicKey, transactionPending]);
 
 
   return (
